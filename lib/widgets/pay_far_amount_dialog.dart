@@ -3,7 +3,7 @@ import 'package:user/SplashScreen/Splash_Screen.dart';
 
 class PayFarAmountDialog extends StatefulWidget {
   double? fareAmount;
-  PayFarAmountDialog({this.fareAmount});
+  PayFarAmountDialog({super.key, this.fareAmount});
 
   @override
   State<PayFarAmountDialog> createState() => _PayFarAmountDialogState();
@@ -26,7 +26,7 @@ class _PayFarAmountDialogState extends State<PayFarAmountDialog> {
         ),
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20),
             width: double.infinity,
             decoration: BoxDecoration(
               color: darkTheme ? Colors.black : Colors.blue,
@@ -43,12 +43,12 @@ class _PayFarAmountDialogState extends State<PayFarAmountDialog> {
                     color: darkTheme ? Colors.amber.shade400 : Colors.white,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Divider(
                   color: darkTheme ? Colors.amber.shade400 : Colors.white,
                   thickness: 1,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'PKR ${widget.fareAmount.toString()}',
                   style: TextStyle(
@@ -57,9 +57,9 @@ class _PayFarAmountDialogState extends State<PayFarAmountDialog> {
                     color: darkTheme ? Colors.amber.shade400 : Colors.white,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Text(
                     "This is the total fare amount. Please pay the amount to the driver.",
                     textAlign: TextAlign.center,
@@ -68,19 +68,19 @@ class _PayFarAmountDialogState extends State<PayFarAmountDialog> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           darkTheme ? Colors.amber.shade400 : Colors.white,
                     ),
                     onPressed: () {
-                      Future.delayed(Duration(milliseconds: 10000), () {
+                      Future.delayed(const Duration(milliseconds: 10000), () {
                         Navigator.pop(context, "cash paid");
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (c) => SplashScreen()));
+                            MaterialPageRoute(builder: (c) => const SplashScreen()));
                       });
                     },
                     child: Row(

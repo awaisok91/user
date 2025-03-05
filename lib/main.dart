@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:user/InfoHandler/app_info.dart';
 import 'package:user/SplashScreen/Splash_Screen.dart';
 import 'package:user/ThemeProvider/theme_provider.dart';
-import 'package:user/widgets/pay_far_amount_dialog.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
         theme: MyTheme.lightTheme,
         darkTheme: MyTheme.darkTheme,
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

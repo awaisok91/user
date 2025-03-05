@@ -10,6 +10,7 @@ import 'package:user/InfoHandler/app_info.dart';
 import 'package:provider/provider.dart';
 import 'package:user/Models/direction.dart';
 import 'package:user/Models/direction_detail_info.dart';
+import 'package:user/Models/trips_history_model.dart';
 import 'package:user/Models/user_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -88,7 +89,6 @@ class AssestantMethod {
       "Authorization": cloudMessagingServerToken,
     };
     Map bodyNotification = {
-      
       "notification": {
         "title": "New Trip Request",
         "body": "Destination Address: $destinationAddress",
@@ -112,5 +112,53 @@ class AssestantMethod {
       headers: headerNotification,
       body: jsonEncode(officialNotificationFormate),
     );
+  }
+
+  //your trips details
+  static void readTripsKeyForOnlineUser(context) {
+    FirebaseDatabase.instance
+        .ref()
+        .child("All Ride requests")
+        .orderByChild("userName")
+        .equalTo(UserModelCurrentInfo!.name)
+        .once()
+        .then((snap) {
+      if (snap.snapshot.value != null) {
+        Map keysTripsId = snap.snapshot.value as Map;
+        //count total number of trips and shaire it with provider
+        int overAllTrpsCounter = keysTripsId.length;
+        Provider.of<AppInfo>(context, listen: false)
+            .updateOverAlltripsCounter(overAllTrpsCounter);
+        //share trips key with providers
+        List<String> tripsKeyList = [];
+        keysTripsId.forEach((Key, value) {
+          tripsKeyList.add(Key);
+        });
+        Provider.of<AppInfo>(context, listen: false)
+            .updateOverAllTripsKeys(tripsKeyList);
+        //get trips keys data
+        readTripsHistoryInformation(context);
+      }
+    });
+  }
+
+  static void readTripsHistoryInformation(context) {
+    var tripsAllKeys =
+        Provider.of<AppInfo>(context, listen: false).historyTripsKeysList;
+    for (String eachKey in tripsAllKeys) {
+      FirebaseDatabase.instance
+          .ref()
+          .child("All Ride requests")
+          .child(eachKey)
+          .once()
+          .then((snap) {
+        var eachTripsHistory = TripsHistoryModel.fromSnapshot(snap.snapshot);
+        if ((snap.snapshot.value as Map)["status"] == "endede") {
+          //update or each history to overalltrips history data list
+          Provider.of<AppInfo>(context, listen: false)
+              .updateOverAllTripsHistoryInformation(eachTripsHistory);
+        }
+      });
+    }
   }
 }
